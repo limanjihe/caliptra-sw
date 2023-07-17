@@ -224,6 +224,10 @@ impl CaliptraError {
     pub const IMAGE_VERIFIER_ERR_FMC_RUNTIME_LOAD_ADDR_OVERLAP: CaliptraError =
         CaliptraError::new_const(0x000b0035);
     pub const RUNTIME_HANDOFF_FHT_NOT_LOADED: CaliptraError = CaliptraError::new_const(0x000b0036);
+    pub const IMAGE_VERIFIER_ERR_FMC_SIZE_ZERO: CaliptraError =
+        CaliptraError::new_const(0x000b0037);
+    pub const IMAGE_VERIFIER_ERR_RUNTIME_SIZE_ZERO: CaliptraError =
+        CaliptraError::new_const(0x000b0038);
 
     /// Driver Error: LMS
     pub const DRIVER_LMS_INVALID_LMS_ALGO_TYPE: CaliptraError =
