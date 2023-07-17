@@ -38,9 +38,6 @@ impl UpdateResetFlow {
         cprintln!("[update-reset] ++");
         report_boot_status(UpdateResetStarted.into());
 
-        // Disable the watchdog timer during firmware download.
-        wdt::stop_wdt(&mut env.soc_ifc);
-
         let Some(mut recv_txn) = env.mbox.try_start_recv_txn() else {
             cprintln!("Failed To Get Mailbox Transaction");
             return Err(CaliptraError::ROM_UPDATE_RESET_FLOW_MAILBOX_ACCESS_FAILURE);
@@ -51,7 +48,7 @@ impl UpdateResetFlow {
             return Err(CaliptraError::ROM_UPDATE_RESET_FLOW_INVALID_FIRMWARE_COMMAND);
         }
 
-        // Reenable the watchdog timer.
+        // Enable the watchdog timer.
         wdt::start_wdt(&mut env.soc_ifc);
 
         let manifest = Self::load_manifest(&mut recv_txn)?;
