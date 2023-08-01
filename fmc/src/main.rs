@@ -42,10 +42,14 @@ pub extern "C" fn entry_point() -> ! {
             Ok(env) => env,
             Err(e) => report_error(e.into()),
         };
+        // Start the watchdog timer
+        caliptra_common::wdt::start_wdt(&mut env.soc_ifc);
 
         match flow::run(&mut env, &mut hand_off) {
             Ok(_) => {
                 if hand_off.is_valid() {
+                    // Stop the WDT before transitioning to the RT.
+                    caliptra_common::wdt::stop_wdt(&mut env.soc_ifc);
                     hand_off.to_rt(&mut env);
                 }
             }
